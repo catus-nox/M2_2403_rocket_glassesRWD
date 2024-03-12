@@ -1,9 +1,9 @@
 function load(url, callback) {
  const xhr = new XMLHttpRequest();
  xhr.onreadystatechange = function () {
-  // if (this.readyState === 4 && this.status === 200) {
-  callback(this.responseText);
-  // }
+  if (this.readyState === 4 && this.status === 200) {
+   callback(this.responseText);
+  }
  };
  xhr.open('GET', url, true);
  xhr.send();
@@ -26,23 +26,30 @@ function pageChange() {
  let removeClass;
  let main = document.getElementsByTagName('main')[0];
  let menuBtn = [
-  { getClass: document.getElementsByClassName('menu-home'), pageURL: "./component/home-page.html", pageClass: 'home-page' },
-  { getClass: document.getElementsByClassName('menu-glasses'), pageURL: "./component/glasses-page.html", pageClass: 'glasses-page' },
-  { getClass: document.getElementsByClassName('menu-location'), pageURL: "./component/location-page.html", pageClass: 'location-page' },
-  { getClass: document.getElementsByClassName('menu-blog'), pageURL: "./component/blog-page.html", pageClass: 'blog-page' },
-  { getClass: document.getElementsByClassName('menu-question'), pageURL: "./component/question-page.html", pageClass: 'question-page' }
+  { getClass_header: document.getElementsByClassName('header-menu-option menu-home'), getClass_footer: document.getElementsByClassName('footer-menu-option menu-home'), pageURL: "./component/home-page.html", pageClass: 'home-page' },
+  { getClass_header: document.getElementsByClassName('header-menu-option menu-glasses'), getClass_footer: document.getElementsByClassName('footer-menu-option menu-glasses'), pageURL: "./component/glasses-page.html", pageClass: 'glasses-page' },
+  { getClass_header: document.getElementsByClassName('header-menu-option menu-location'), getClass_footer: document.getElementsByClassName('footer-menu-option menu-location'), pageURL: "./component/location-page.html", pageClass: 'location-page' },
+  { getClass_header: document.getElementsByClassName('header-menu-option menu-blog'), getClass_footer: document.getElementsByClassName('footer-menu-option menu-blog'), pageURL: "./component/blog-page.html", pageClass: 'blog-page' },
+  { getClass_header: document.getElementsByClassName('header-menu-option menu-question'), getClass_footer: document.getElementsByClassName('footer-menu-option menu-question'), pageURL: "./component/question-page.html", pageClass: 'question-page' }
  ];
  //首頁
  menuIn(0);
  //選單分頁切換
  for (let i = 0; i < menuBtn.length; i++) {
-  if (menuBtn[i].getClass.length > 0) {
-   for (let e = 0; e < menuBtn[i].getClass.length; e++) {
-    menuBtn[i].getClass[e].addEventListener('click', function () {
-     menuIn(i);
-    }, true);
-   }
+  // if (menuBtn[i].getClass_header.length > 0) {
+  // for (let e = 0; e < menuBtn[i].getClass_header.length; e++) {
+  if (i > 0) {
+   menuBtn[i].getClass_header[0].addEventListener('click', function () {
+    menuIn(i);
+   }, true);
   }
+  console.log(menuBtn[i].getClass_footer);
+  console.log(menuBtn[i].getClass_footer[0]);
+  menuBtn[i].getClass_footer[0].addEventListener('click', function () {
+   menuIn(i);
+  }, true);
+  // }
+  // }
  }
  //分頁載入資料
  function menuIn(i) {
