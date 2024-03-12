@@ -1,29 +1,60 @@
-function load(url, callback) {
- const xhr = new XMLHttpRequest();
- xhr.onreadystatechange = function () {
-  if (this.readyState === 4 && this.status === 200) {
-   callback(this.responseText);
-  }
- };
- xhr.open('GET', url, true);
- xhr.send();
+// function load(url, callback) {
+//  const xhr = new XMLHttpRequest();
+//  xhr.onreadystatechange = function () {
+//   if (this.readyState === 4 && this.status === 200) {
+//    callback(this.responseText);
+//   }
+//  };
+//  xhr.open('GET', url, true);
+//  xhr.send();
+// }
+
+// load('./component/header.html', function (response) {
+//  document.getElementsByTagName('header')[0].innerHTML = response;
+// });
+
+// load('./component/footer.html', function (response) {
+//  document.getElementsByTagName('footer')[0].innerHTML = response;
+// });
+
+// load('', function () {
+//  pageChange();
+// });
+//------------------------------------------------------------------
+function load(url) {
+ return new Promise((resolve, reject) => {
+  const xhr = new XMLHttpRequest();
+  xhr.onreadystatechange = function () {
+   if (this.readyState === 4) {
+    if (this.status === 200) {
+     resolve(this.responseText);
+    } else {
+     reject(new Error('Failed to load: ' + url));
+    }
+   }
+  };
+  xhr.open('GET', url, true);
+  xhr.send();
+ });
 }
-$(document).ready(function () {
- load('./component/header.html', function (response) {
-  document.getElementsByTagName('header')[0].innerHTML = response;
- });
 
- load('./component/footer.html', function (response) {
-  document.getElementsByTagName('footer')[0].innerHTML = response;
- });
+const headerPromise = load('./component/header.html')
+const footerPromise = load('./component/footer.html')
 
- load('', function () {
+Promise.all([headerPromise, footerPromise])
+ .then((responseText) => {
+  // 两个加载操作都完成后调用 pageChange 函数
+  document.getElementsByTagName('header')[0].innerHTML = responseText[0];
+  document.getElementsByTagName('footer')[0].innerHTML = responseText[1];
   pageChange();
+ })
+ .catch(error => {
+  console.error('Error loading components:', error);
  });
-});
+
 //------------------------------------------------------------------
 function pageChange() {
- let removeClass;
+ let pageRemoveClass;
  let main = document.getElementsByTagName('main')[0];
  let menuBtn = [
   { getClass_header: document.getElementsByClassName('header-menu-option menu-home'), getClass_footer: document.getElementsByClassName('footer-menu-option menu-home'), pageURL: "./component/home-page.html", pageClass: 'home-page' },
@@ -36,42 +67,63 @@ function pageChange() {
  menuIn(0);
  //選單分頁切換
  for (let i = 0; i < menuBtn.length; i++) {
-  // if (menuBtn[i].getClass_header.length > 0) {
-  // for (let e = 0; e < menuBtn[i].getClass_header.length; e++) {
   if (i > 0) {
    menuBtn[i].getClass_header[0].addEventListener('click', function () {
     menuIn(i);
    }, true);
   }
-  console.log(menuBtn[i].getClass_footer);
-  console.log(menuBtn[i].getClass_footer[0]);
   menuBtn[i].getClass_footer[0].addEventListener('click', function () {
    menuIn(i);
   }, true);
-  // }
-  // }
  }
  //分頁載入資料
  function menuIn(i) {
-  load(menuBtn[i].pageURL, function (response) {
-   main.classList.remove(removeClass);
-   main.innerHTML = response;
-   main.classList.add(menuBtn[i].pageClass);
-   removeClass = menuBtn[i].pageClass;
-   if (menuBtn[i].pageClass == 'glasses-page') {
-    glassesPageFunction();
-   }
-   if (menuBtn[i].pageClass == 'location-page') {
-    locationPageFunction();
-   }
-   if (menuBtn[i].pageClass == 'blog-page') {
-    blogPageFunction();
-   }
-   if (menuBtn[i].pageClass == 'question-page') {
-    questionPageFunction();
-   }
-  });
+  load(menuBtn[i].pageURL)
+   .then(responseText => {
+    main.classList.remove(pageRemoveClass);
+    main.innerHTML = responseText;
+    main.classList.add(menuBtn[i].pageClass);
+    pageRemoveClass = menuBtn[i].pageClass;
+    if (menuBtn[i].pageClass == 'glasses-page') {
+     glassesPageFunction();
+    }
+    if (menuBtn[i].pageClass == 'location-page') {
+     locationPageFunction();
+    }
+    if (menuBtn[i].pageClass == 'blog-page') {
+     blogPageFunction();
+    }
+    if (menuBtn[i].pageClass == 'question-page') {
+     questionPageFunction();
+    }
+   })
+   .catch(error => {
+    console.error('Error loading URL 2:', error);
+   });
  }
+ //分頁載入資料
+ // function menuIn(i) {
+ //  load(menuBtn[i].pageURL, function (response) {
+ //   main.classList.remove(pageRemoveClass);
+ //   main.innerHTML = response;
+ //   main.classList.add(menuBtn[i].pageClass);
+ //   pageRemoveClass = menuBtn[i].pageClass;
+ //   if (menuBtn[i].pageClass == 'glasses-page') {
+ //    glassesPageFunction();
+ //   }
+ //   if (menuBtn[i].pageClass == 'location-page') {
+ //    locationPageFunction();
+ //   }
+ //   if (menuBtn[i].pageClass == 'blog-page') {
+ //    blogPageFunction();
+ //   }
+ //   if (menuBtn[i].pageClass == 'question-page') {
+ //    questionPageFunction();
+ //   }
+ //  });
+ // }
+
+
 }
 //------------------------------------------------------------------
 function glassesPageFunction() {
