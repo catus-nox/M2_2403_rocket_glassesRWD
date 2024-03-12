@@ -1433,6 +1433,7 @@ main {
       font-size: 0.95rem;
       line-height: 1.55;
       padding: 0.4rem 0;
+      cursor: pointer;
 
       @include mobile() {
        padding: 0.8rem 0;
