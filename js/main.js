@@ -2,23 +2,24 @@ function load(url, callback) {
  const xhr = new XMLHttpRequest();
  xhr.onreadystatechange = function () {
   // if (this.readyState === 4 && this.status === 200) {
-   callback(this.responseText);
+  callback(this.responseText);
   // }
  };
  xhr.open('GET', url, true);
  xhr.send();
 }
+$(document).ready(function () {
+ load('./component/header.html', function (response) {
+  document.getElementsByTagName('header')[0].innerHTML = response;
+ });
 
-load('./component/header.html', function (response) {
- document.getElementsByTagName('header')[0].innerHTML = response;
-});
+ load('./component/footer.html', function (response) {
+  document.getElementsByTagName('footer')[0].innerHTML = response;
+ });
 
-load('./component/footer.html', function (response) {
- document.getElementsByTagName('footer')[0].innerHTML = response;
-});
-
-load('', function () {
- pageChange();
+ load('', function () {
+  pageChange();
+ });
 });
 //------------------------------------------------------------------
 function pageChange() {
@@ -62,7 +63,6 @@ function pageChange() {
    if (menuBtn[i].pageClass == 'question-page') {
     questionPageFunction();
    }
-   console.log(i);
   });
  }
 }
@@ -278,14 +278,12 @@ function blogPageFunction() {
   `);
  }
 }
-
 //blogPageFunction
 function openBlogFunction(i) {
  let main = document.getElementsByTagName('main')[0];
  load('./component/blog-article-page.html', function (response) {
   main.innerHTML = response;
  });
- console.log(i);
 }
 //------------------------------------------------------------------
 function questionPageFunction() {
