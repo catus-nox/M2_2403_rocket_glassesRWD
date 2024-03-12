@@ -277,9 +277,16 @@ function locationPageFunction() {
 //locationPageFunction
 function openLocationFunction(i) {
  let main = document.getElementsByTagName('main')[0];
- load('./component/location-store-page.html', function (response) {
-  main.innerHTML = response;
- });
+ // load('./component/location-store-page.html', function (response) {
+ //  main.innerHTML = response;
+ // });
+ load('./component/location-store-page.html')
+  .then(responseText => {
+   main.innerHTML = responseText;
+  })
+  .catch(error => {
+   console.error('Error loading URL 2:', error);
+  });
 }
 //------------------------------------------------------------------
 function blogPageFunction() {
@@ -338,11 +345,18 @@ function blogPageFunction() {
  }
 }
 //blogPageFunction
-function openBlogFunction(i) {
+function openBlogFunction() {
  let main = document.getElementsByTagName('main')[0];
- load('./component/blog-article-page.html', function (response) {
-  main.innerHTML = response;
- });
+ // load('./component/blog-article-page.html', function (response) {
+ //  main.innerHTML = response;
+ // });
+ load('./component/blog-article-page.html')
+  .then(responseText => {
+   main.innerHTML = responseText;
+  })
+  .catch(error => {
+   console.error('Error loading URL 2:', error);
+  });
 }
 //------------------------------------------------------------------
 function questionPageFunction() {

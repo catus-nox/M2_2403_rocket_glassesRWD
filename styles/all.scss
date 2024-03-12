@@ -1549,7 +1549,7 @@ main {
 
       @include mobile() {
        font-size: 0.8rem;
-       font-weight: 600;
+       font-weight: 500;
        margin: 0;
       }
 
@@ -1700,7 +1700,9 @@ main {
        right: 0;
        font-size: 1rem;
        line-height: 1.5;
-       padding: 0 0.1rem;
+       padding: 0.2rem 0.8rem
+       ;
+
        background-color: $color-sub-white;
        color: $color-sub-darkGray;
        font-weight: 400;
