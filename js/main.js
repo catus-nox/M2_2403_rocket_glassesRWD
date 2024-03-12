@@ -53,9 +53,9 @@ Promise.all([headerPromise, footerPromise])
  });
 
 //------------------------------------------------------------------
+let main = document.getElementsByTagName('main')[0];
 function pageChange() {
  let pageRemoveClass;
- let main = document.getElementsByTagName('main')[0];
  let menuBtn = [
   { getClass_header: document.getElementsByClassName('header-menu-option menu-home'), getClass_footer: document.getElementsByClassName('footer-menu-option menu-home'), pageURL: "./component/home-page.html", pageClass: 'home-page' },
   { getClass_header: document.getElementsByClassName('header-menu-option menu-glasses'), getClass_footer: document.getElementsByClassName('footer-menu-option menu-glasses'), pageURL: "./component/glasses-page.html", pageClass: 'glasses-page' },
@@ -122,8 +122,6 @@ function pageChange() {
  //   }
  //  });
  // }
-
-
 }
 //------------------------------------------------------------------
 function glassesPageFunction() {
@@ -276,7 +274,7 @@ function locationPageFunction() {
 }
 //locationPageFunction
 function openLocationFunction(i) {
- let main = document.getElementsByTagName('main')[0];
+ // let main = document.getElementsByTagName('main')[0];
  // load('./component/location-store-page.html', function (response) {
  //  main.innerHTML = response;
  // });
@@ -346,7 +344,7 @@ function blogPageFunction() {
 }
 //blogPageFunction
 function openBlogFunction() {
- let main = document.getElementsByTagName('main')[0];
+ // let main = document.getElementsByTagName('main')[0];
  // load('./component/blog-article-page.html', function (response) {
  //  main.innerHTML = response;
  // });
